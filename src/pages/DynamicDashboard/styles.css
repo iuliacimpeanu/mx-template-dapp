@@ -35,13 +35,14 @@
   text-align: end;
   font-size: 14px;
   margin-top: 10px;
-  color:#4B5563
+  color: black;
 }
 
 .mx-sdk-sc-card .mx-sdk-sc-card-header-title {
   border: 1px solid #9CA3AF;
   border-radius: 12px;
   padding: 8px 16px;
+  /* background-color: white; */
 }
 
 .mx-sdk-sc-card-header-collapse-icon {

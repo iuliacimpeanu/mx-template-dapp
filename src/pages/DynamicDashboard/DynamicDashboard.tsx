@@ -42,7 +42,7 @@ const customClassNames = {
     badgeSecondaryClassName: 'border rounded-xl border-gray-300 text-gray-500 text-sm',
     buttonClassName: 'hidden',
     buttonPrimaryClassName: 'rounded-xl px-3 py-2 text-center bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-200 disabled:text-black disabled:cursor-not-allowed',
-    inputClassName: 'text-sm border border-gray-200 bg-gray-100 rounded-xl overflow-auto p-3.5 w-full'
+    inputClassName: 'text-sm border border-gray-200 bg-white rounded-xl overflow-auto p-3.5 w-full'
 };
 
 const icons = {
@@ -83,7 +83,8 @@ export const DynamicDashboard = () => {
         {WIDGETS.map((element) => (
           <Widget key={element.title} {...element} />
         ))}
-        <div className='bg-white p-6 rounded-xl'>
+        <div className='bg-white p-6 rounded-xl flex flex-col gap-4'>
+          <p className='font-medium text-xl'>Contract</p>
           <ContractAddress />
         </div>
         <ScExplorerContainer
