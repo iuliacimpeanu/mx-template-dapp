@@ -7,17 +7,20 @@
   "repository": "@multiversx/mx-template-dapp",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.5.1",
+    "@fortawesome/free-regular-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "6.5.1",
     "@fortawesome/react-fontawesome": "0.2.0",
     "@multiversx/sdk-core": "13.2.1",
     "@multiversx/sdk-dapp": "2.40.0",
+    "@multiversx/sdk-dapp-sc-explorer": "^0.0.1-beta.9",
     "@multiversx/sdk-network-providers": "2.4.3",
     "axios": "1.6.5",
     "classnames": "2.3.2",
     "moment": "2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.16.0"
+    "react-router-dom": "6.16.0",
+    "sass": "^1.78.0"
   },
   "scripts": {
     "lint": "eslint --ext js,ts,tsx src",
