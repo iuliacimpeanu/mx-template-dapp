@@ -1,1 +1,3 @@
-export * from './Widget';
+export * from './Endpoint'
+export * from './EndpointDisplay'
+export * from './Endpoints'

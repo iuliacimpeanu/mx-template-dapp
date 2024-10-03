@@ -1,102 +1,66 @@
-import { contractAddress } from 'config';
+import { contractAddress, contractAbi, environment } from 'config';
 import { AuthRedirectWrapper } from 'wrappers';
-import {
-  Account,
-  PingPongAbi,
-  SignMessage,
-  NativeAuth,
-  BatchTransactions,
-  PingPongRaw,
-  PingPongService,
-  Transactions
-} from './widgets';
-import { useScrollToElement } from 'hooks';
-import { Widget } from './components';
-import { WidgetType } from 'types/widget.types';
+import { useGetAccountInfo, useGetLoginInfo, useScrollToElement } from 'hooks';
+import { useGetSmartContractDetails } from 'hooks/useGetSmartContractDetails';
+import { MutateModal } from '@multiversx/sdk-dapp-sc-explorer/components/Modals/MutateModal';
+import { ScExplorerContainer } from '@multiversx/sdk-dapp-sc-explorer/containers/ScExplorerContainer';
+import { ContractAddress } from './components/ContractAddress';
+import { Account } from './components/Account';
+import { Endpoints } from './components/Endpoints';
+import './styles.css'
 
-const WIDGETS: WidgetType[] = [
-  {
-    title: 'Account',
-    widget: Account,
-    description: 'Connected account details',
-    reference: 'https://docs.multiversx.com/sdk-and-tools/sdk-dapp/#account'
-  },
-  {
-    title: 'Ping & Pong (Manual)',
-    widget: PingPongRaw,
-    description:
-      'Smart Contract interactions using manually formulated transactions',
-    reference:
-      'https://docs.multiversx.com/sdk-and-tools/indices/es-index-transactions/',
-    anchor: 'ping-pong-manual'
-  },
-  {
-    title: 'Ping & Pong (ABI)',
-    widget: PingPongAbi,
-    description:
-      'Smart Contract interactions using the ABI generated transactions',
-    reference:
-      'https://docs.multiversx.com/sdk-and-tools/sdk-js/sdk-js-cookbook/#using-interaction-when-the-abi-is-available',
-    anchor: 'ping-pong-abi'
-  },
-  {
-    title: 'Ping & Pong (Backend)',
-    widget: PingPongService,
-    description:
-      'Smart Contract interactions using the backend generated transactions',
-    reference: 'https://github.com/multiversx/mx-ping-pong-service',
-    anchor: 'ping-pong-backend'
-  },
-  {
-    title: 'Sign message',
-    widget: SignMessage,
-    description: 'Message signing using the connected account',
-    reference: 'https://docs.multiversx.com/sdk-and-tools/sdk-dapp/#account-1',
-    anchor: 'sign-message'
-  },
-  {
-    title: 'Native auth',
-    widget: NativeAuth,
-    description:
-      'A secure authentication token can be used to interact with the backend',
-    reference: 'https://github.com/multiversx/mx-sdk-js-native-auth-server'
-  },
-  {
-    title: 'Batch Transactions',
-    widget: BatchTransactions,
-    description:
-      'For complex scenarios transactions can be sent in the desired group/sequence',
-    reference:
-      'https://github.com/multiversx/mx-sdk-dapp#sending-transactions-synchronously-in-batches',
-    anchor: 'batch-transactions'
-  },
-  {
-    title: 'Transactions (All)',
-    widget: Transactions,
-    description: 'List transactions for the connected account',
-    reference:
-      'https://api.elrond.com/#/accounts/AccountController_getAccountTransactions'
-  },
-  {
-    title: 'Transactions (Ping & Pong)',
-    widget: Transactions,
-    props: { receiver: contractAddress },
-    description: 'List transactions filtered for a given Smart Contract',
-    reference:
-      'https://api.elrond.com/#/accounts/AccountController_getAccountTransactions'
-  }
-];
+const customClassNames = {
+    buttonPrimaryClassName: 'rounded-xl px-3 py-2 text-center bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-200 disabled:text-black disabled:cursor-not-allowed',
+    inputClassName: 'text-sm border border-gray-200 bg-white rounded-xl overflow-auto p-3.5 w-full'
+};
+// TODO: remove unused icons
+// TODO: do not define 2 components in a file
 
 export const Dashboard = () => {
   useScrollToElement();
+  const { smartContractDetails } = useGetSmartContractDetails();
 
+// TODO: remove Widgets & widget logic
   return (
     <AuthRedirectWrapper>
-      <div className='flex flex-col gap-6 max-w-3xl w-full'>
-        {WIDGETS.map((element) => (
-          <Widget key={element.title} {...element} />
-        ))}
+      <div className='flex flex-col gap-6'>
+        <div className='flex flex-col flex-1 rounded-xl bg-white p-6 justify-center'>
+          <p className='font-medium text-xl'>Account</p>
+          <p className='text-gray-400 mb-6'>Connected account details</p>
+          <Account />
+        </div>
+        <div className='flex flex-col flex-1 rounded-xl bg-white p-6 justify-center'>
+          <p className='font-medium text-xl mb-6'>Contract</p>
+          <ContractAddress />
+        </div>
+        <ScExplorerContainer
+            smartContract={{
+              contractAddress: contractAddress,
+              abi: contractAbi,
+              deployedContractDetails: smartContractDetails
+            }}
+            accountConsumerHandlers={{
+              useGetLoginInfo,
+              useGetAccountInfo
+            }}
+            networkConfig={{ environment }}
+            config={{
+              canMutate: true,
+              canLoadAbi: false,
+              canDeploy: false,
+              canUpgrade: false,
+              canDisplayContractDetails: false
+            }}
+            customClassNames={customClassNames}
+            className='mx-sdk-sc'
+            children={
+              <>
+                <MutateModal />
+                <Endpoints />
+              </>
+            }
+          />
       </div>
-    </AuthRedirectWrapper>
+      </AuthRedirectWrapper>
   );
 };
