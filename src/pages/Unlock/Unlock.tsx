@@ -82,13 +82,13 @@ export const Unlock = () => {
             <WebWalletLoginWrapper {...commonProps} />
             <IframeButton
               loginButtonText='Passkey Proxy'
-              loginType='passkey'
+              // loginType='passkey'
               {...commonProps}
             />
 
             <IframeButton
               loginButtonText='Metamask Proxy'
-              loginType='metamask'
+              // loginType='metamask'
               {...commonProps}
             />
           </div>
